@@ -49,7 +49,7 @@ export default function ASINAnalyzer() {
           disabled={loading}
           style={{ width: "100%", padding: "0.75rem", backgroundColor: "#0070f3", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" }}
         >
-          {loading ? "Analyzing..." : "Analyze Listing"}
+          {loading ? "Analysing..." : "Analyse Listing"}
         </button>
       </div>
 
