@@ -1,9 +1,4 @@
-
 import React, { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 
 export default function ASINAnalyzer() {
   const [asin, setAsin] = useState("");
@@ -37,49 +32,59 @@ export default function ASINAnalyzer() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4 text-center">UK Amazon ASIN Analyzer</h1>
-      <Card className="mb-6">
-        <CardContent className="space-y-4 p-6">
-          <Input
-            placeholder="Enter ASIN or Amazon URL"
-            value={asin}
-            onChange={(e) => setAsin(e.target.value)}
-          />
-          <Button onClick={analyzeASIN} disabled={loading}>
-            {loading ? "Analyzing..." : "Analyze Listing"}
-          </Button>
-        </CardContent>
-      </Card>
+    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "2rem" }}>
+      <h1 style={{ fontSize: "24px", fontWeight: "bold", textAlign: "center", marginBottom: "1rem" }}>
+        UK Amazon ASIN Analyzer
+      </h1>
+
+      <div style={{ marginBottom: "2rem", padding: "1rem", border: "1px solid #ddd", borderRadius: "8px" }}>
+        <input
+          style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }}
+          placeholder="Enter ASIN or Amazon URL"
+          value={asin}
+          onChange={(e) => setAsin(e.target.value)}
+        />
+        <button
+          onClick={analyzeASIN}
+          disabled={loading}
+          style={{ width: "100%", padding: "0.75rem", backgroundColor: "#0070f3", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" }}
+        >
+          {loading ? "Analyzing..." : "Analyze Listing"}
+        </button>
+      </div>
 
       {result && (
-        <Card>
-          <CardContent className="p-6 space-y-4">
-            <div className="text-center">
-              <span className="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full">
-                Brand Owner: {result.brand}
-              </span>
+        <div style={{ padding: "1rem", border: "1px solid #ddd", borderRadius: "8px" }}>
+          <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+            <span style={{ backgroundColor: "#dbeafe", color: "#1e40af", padding: "0.5rem 1rem", borderRadius: "9999px", fontWeight: "600" }}>
+              Brand Owner: {result.brand}
+            </span>
+          </div>
+          <h2 style={{ textAlign: "center", fontWeight: "600", marginBottom: "1rem" }}>{result.title}</h2>
+          <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+            <div style={{
+              display: "inline-flex",
+              width: "64px",
+              height: "64px",
+              borderRadius: "50%",
+              backgroundColor: result.score >= 7 ? '#4ade80' : result.score >= 4 ? '#facc15' : '#f87171',
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "24px",
+              fontWeight: "bold",
+              color: "white"
+            }}>
+              {result.score}
             </div>
-            <h2 className="text-lg font-semibold text-center mt-4">{result.title}</h2>
-            <div className="flex flex-col items-center my-4">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="w-16 h-16 flex items-center justify-center rounded-full"
-                style={{ backgroundColor: result.score >= 7 ? '#4ade80' : result.score >= 4 ? '#facc15' : '#f87171' }}
-              >
-                <span className="text-white text-xl font-bold">{result.score}</span>
-              </motion.div>
-              <span className="mt-2 text-sm font-semibold">{getScoreLabel(result.score)}</span>
-            </div>
-            <p><strong>ASIN:</strong> {result.asin}</p>
-            <p><strong>Current Sellers:</strong> {result.latestSellerCount}</p>
-            <p><strong>Average Sellers:</strong> {result.avgSellerCount}</p>
-            <p><strong>Verdict:</strong> {result.message}</p>
-          </CardContent>
-        </Card>
+            <div style={{ marginTop: "0.5rem", fontWeight: "600" }}>{getScoreLabel(result.score)}</div>
+          </div>
+          <p><strong>ASIN:</strong> {result.asin}</p>
+          <p><strong>Current Sellers:</strong> {result.latestSellerCount}</p>
+          <p><strong>Average Sellers:</strong> {result.avgSellerCount}</p>
+          <p><strong>Verdict:</strong> {result.message}</p>
+        </div>
       )}
     </div>
   );
 }
+
